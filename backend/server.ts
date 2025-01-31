@@ -7,6 +7,7 @@ import http from "http";
 import { connectDB } from "./src/database/db";
 import { config } from "./src/config";
 import userRoutes from "./src/routes/user.routes";
+import authRoutes from "./src/routes/auth.routes";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
 // app.use(express.static("public"));
