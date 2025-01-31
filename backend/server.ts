@@ -43,7 +43,7 @@ app.get("/**", (req: Request, res: Response) => {
 });
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error("❌ Server Error:", err.message);
+  console.error("❌ Server Error:", JSON.stringify(err, null, 2));
   res.status(500).json({ error: "Internal Server Error" });
 });
 

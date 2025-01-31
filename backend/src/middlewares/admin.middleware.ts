@@ -20,7 +20,10 @@ export const adminMiddleware = async (
 
     next();
   } catch (error) {
-    console.error("❌ Error in adminMiddleware:", error);
+    console.error(
+      "❌ Error in adminMiddleware:",
+      JSON.stringify(error, null, 2)
+    );
     res.status(500).json({ message: "Internal server error" });
   }
 };

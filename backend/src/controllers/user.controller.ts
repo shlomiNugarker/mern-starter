@@ -11,7 +11,7 @@ export const getProfile = async (req: Request, res: Response) => {
 
     res.json(user);
   } catch (error) {
-    console.error("❌ Error in getProfile:", error);
+    console.error("❌ Error in getProfile:", JSON.stringify(error, null, 2));
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -34,7 +34,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 
     res.json({ message: "Profile updated successfully", user: updatedUser });
   } catch (error) {
-    console.error("❌ Error in updateProfile:", error);
+    console.error("❌ Error in updateProfile:", JSON.stringify(error, null, 2));
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -51,7 +51,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
     res.json({ message: "User deleted successfully" });
   } catch (error) {
-    console.error("❌ Error in deleteUser:", error);
+    console.error("❌ Error in deleteUser:", JSON.stringify(error, null, 2));
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -61,7 +61,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
     const users = await User.find().select("-password");
     res.json(users);
   } catch (error) {
-    console.error("❌ Error in getAllUsers:", error);
+    console.error("❌ Error in getAllUsers:", JSON.stringify(error, null, 2));
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -87,7 +87,10 @@ export const updateUserRole = async (req: Request, res: Response) => {
 
     res.json({ message: "User role updated successfully", user: updatedUser });
   } catch (error) {
-    console.error("❌ Error in updateUserRole:", error);
+    console.error(
+      "❌ Error in updateUserRole:",
+      JSON.stringify(error, null, 2)
+    );
     res.status(500).json({ message: "Internal server error" });
   }
 };
