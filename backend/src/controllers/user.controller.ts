@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../models/User";
+import { generateToken } from "../utils/jwt";
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -34,7 +35,13 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    res.status(200).json({ message: "Login successful", user });
+    console.log("user", user);
+
+    console.log((user._id as string).toString());
+
+    const token = generateToken((user._id as string).toString());
+
+    res.status(200).json({ message: "Login successful", token, user });
   } catch (error) {
     console.error("❌ Error in loginUser:", error);
     res.status(500).json({ message: "Internal server error" });
