@@ -37,9 +37,31 @@ export const loginUser = async (req: Request, res: Response) => {
 
     const token = generateToken((user._id as string).toString());
 
-    res.status(200).json({ message: "Login successful", token, user });
+    // ✅ שליחת הטוקן בעוגייה מאובטחת
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // רק ב-HTTPS בפרודקשן
+      sameSite: "strict",
+    });
+
+    res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     console.error("❌ Error in loginUser:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getUserProfile = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    const user = await User.findById(req.userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("❌ Error in getUserProfile:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

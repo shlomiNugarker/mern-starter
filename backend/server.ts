@@ -7,6 +7,7 @@ import http from "http";
 import { connectDB } from "./src/database/db";
 import { config } from "./src/config";
 import userRoutes from "./src/routes/user.routes";
+
 dotenv.config();
 
 const app: Express = express();
@@ -31,7 +32,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(express.static("public"));
+app.use("/api/users", userRoutes);
+
+// app.use(express.static("public"));
 
 app.get("/**", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -43,8 +46,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 connectDB();
-
-app.use("/api/users", userRoutes);
 
 server.listen(config.port, () => {
   console.log(`🚀 Server is running on port ${config.port}`);
