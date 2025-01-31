@@ -6,6 +6,7 @@ import cors from "cors";
 import http from "http";
 import { connectDB } from "./src/database/db";
 import { config } from "./src/config";
+dotenv.config();
 
 const app: Express = express();
 const server = http.createServer(app);
