@@ -43,7 +43,10 @@ export const loginUser = async (req: Request, res: Response) => {
       sameSite: "strict",
     });
 
-    res.status(200).json({ message: "Login successful", user });
+    const { password: psw, ...safeUser } = user.toObject();
+    res
+      .status(200)
+      .json({ message: "Login successful", token, user: safeUser });
   } catch (error) {
     console.error("❌ Error in loginUser:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -57,8 +60,8 @@ export const getUserProfile = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    res.json(user);
+    const { password: _, ...safeUser } = user.toObject();
+    res.json(safeUser);
   } catch (error) {
     console.error("❌ Error in getUserProfile:", error);
     res.status(500).json({ message: "Internal server error" });
