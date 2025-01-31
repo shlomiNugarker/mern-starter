@@ -1,6 +1,5 @@
-import express, { Express } from "express";
-import { json } from "body-parser";
-import expressSession from "express-session";
+import express, { Express, Request, Response, NextFunction } from "express";
+import session from "express-session";
 import path from "path";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -11,38 +10,36 @@ dotenv.config();
 const app: Express = express();
 const server = http.createServer(app);
 
-const session = expressSession({
-  secret: process.env.SESSION_SECRET || "default-secret",
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: process.env.NODE_ENV === "production" },
-});
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "default-secret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: process.env.NODE_ENV === "production" },
+  })
+);
 
-app.use(session);
-app.use(json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const corsOptions = {
+  origin: ["http://127.0.0.1:3000", "http://localhost:3000"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use(express.static("public"));
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.resolve(__dirname, "public")));
-} else {
-  const corsOptions = {
-    origin: ["http://127.0.0.1:3000", "http://localhost:3000"],
-    credentials: true,
-  };
-  app.use(cors(corsOptions));
-}
-
-// ניהול שגיאות גלובלי
-app.use((err: any, req: any, res: any, next: any) => {
-  console.error(err.stack);
-  res.status(500).send({ error: "Something went wrong!" });
-});
-
-app.get("/**", (req, res) => {
+app.get("/**", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error("❌ Server Error:", err.message);
+  res.status(500).json({ error: "Internal Server Error" });
+});
 const PORT = process.env.PORT || 3030;
+
 server.listen(PORT, () => {
-  console.log(`⚡️Server is running on port: ${PORT}`);
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
