@@ -1,12 +1,5 @@
 import { useTranslation } from "react-i18next";
 
-export interface LinkItem {
-  url: string;
-  title: string;
-  imageUrl: string;
-  position?: string;
-}
-
 export const Home = () => {
   const { t } = useTranslation();
 
