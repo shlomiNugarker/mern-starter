@@ -4,7 +4,7 @@ import { User } from "../models/User";
 export const getProfile = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const user = await User.findById(req.userId).select("-password"); // בלי הסיסמה
+    const user = await User.findById(req.userId).select("-password"); // הסרת הסיסמה מהתגובה
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
