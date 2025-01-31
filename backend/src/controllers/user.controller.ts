@@ -37,10 +37,9 @@ export const loginUser = async (req: Request, res: Response) => {
 
     const token = generateToken((user._id as string).toString());
 
-    // ✅ שליחת הטוקן בעוגייה מאובטחת
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // רק ב-HTTPS בפרודקשן
+      secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
 
