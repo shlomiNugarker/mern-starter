@@ -4,18 +4,18 @@ import path from "path";
 import dotenv from "dotenv";
 import cors from "cors";
 import http from "http";
-
-dotenv.config();
+import { connectDB } from "./src/database/db";
+import { config } from "./src/config";
 
 const app: Express = express();
 const server = http.createServer(app);
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "default-secret",
+    secret: config.sessionSecret,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: process.env.NODE_ENV === "production" },
+    cookie: { secure: config.isProduction },
   })
 );
 
@@ -23,9 +23,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: ["http://127.0.0.1:3000", "http://localhost:3000"],
+  origin: config.allowedOrigins,
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 
 app.use(express.static("public"));
@@ -38,8 +39,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error("❌ Server Error:", err.message);
   res.status(500).json({ error: "Internal Server Error" });
 });
-const PORT = process.env.PORT || 3030;
 
-server.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+connectDB();
+
+server.listen(config.port, () => {
+  console.log(`🚀 Server is running on port ${config.port}`);
 });
