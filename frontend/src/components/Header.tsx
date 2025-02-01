@@ -48,7 +48,9 @@ const Header = () => {
             <Link
               to={item.path}
               rel="noopener noreferrer"
-              className="text-xl transition-colors duration-200 px-4 py-2 hover:underline truncate"
+              className={`text-xl transition-colors duration-200 px-4 py-2 hover:underline truncate ${
+                isMobile ? "text-center" : ""
+              }`}
             >
               {item.label}
             </Link>
