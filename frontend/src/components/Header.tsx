@@ -22,6 +22,10 @@ const Header = () => {
   const menuItems = [
     {
       label: t("home_page"),
+      path: "/login",
+    },
+    {
+      label: t("login_page"),
       path: "/",
     },
   ];
@@ -51,7 +55,7 @@ const Header = () => {
 
   return (
     <div
-      className="min-h-0 shadow-md bg-primary sticky w-full z-10 top-0 backdrop-blur-lg"
+      className="min-h-0 shadow-md bg-blue-500 sticky w-full z-10 top-0 backdrop-blur-lg"
       style={{
         backgroundImage: `/images/header-bg.jpg`,
         backgroundSize: "cover",
@@ -60,7 +64,7 @@ const Header = () => {
     >
       <header className="container mx-auto z-10 top-0 flex justify-between flex-col items-center p-6 text-primary-foreground">
         <div className="flex justify-between w-full items-center">
-          <Link to="/" className="transition-colors duration-200 mr-5">
+          {/* <Link to="/" className="transition-colors duration-200 mr-5">
             <img
               src={`/images/logo.png`}
               alt="logo"
@@ -68,7 +72,7 @@ const Header = () => {
               width={200}
               height={50}
             />
-          </Link>
+          </Link> */}
 
           <button
             aria-label="Menu"
