@@ -5,6 +5,7 @@ import {
   logoutUser,
   forgotPassword,
   resetPassword,
+  getAuthenticatedUser,
 } from "../controllers/auth.controller";
 
 const router = Router();
@@ -18,5 +19,7 @@ router.post("/logout", logoutUser);
 router.post("/forgot-password", forgotPassword);
 
 router.post("/reset-password/:token", resetPassword);
+
+router.get("/me", getAuthenticatedUser);
 
 export default router;

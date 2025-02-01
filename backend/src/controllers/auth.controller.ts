@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../models/User";
-import { generateToken } from "../utils/jwt";
+import { generateToken, verifyToken } from "../utils/jwt";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
@@ -120,6 +120,39 @@ export const resetPassword = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Password has been reset successfully" });
   } catch (error) {
     console.error("❌ Error in resetPassword:", JSON.stringify(error, null, 2));
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getAuthenticatedUser = async (req: Request, res: Response) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = verifyToken(token);
+
+    if (!decoded) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    let user = null;
+
+    user = await User.findById((decoded as any).userId).select("-password");
+    console.log({ user });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error(
+      "❌ Error in getAuthenticatedUser:",
+      JSON.stringify(error, null, 2)
+    );
     res.status(500).json({ message: "Internal server error" });
   }
 };
