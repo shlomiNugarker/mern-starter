@@ -3,5 +3,6 @@
   "home_welcome": "Welcome to our home page",
   "login_page": "Login page",
   "password": "Password",
-  "email": "Email"
+  "email": "Email",
+  "register_page": "Register page"
 }

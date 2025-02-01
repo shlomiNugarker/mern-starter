@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Toaster } from "@/components/ui/sonner";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   const { i18n } = useTranslation();
@@ -23,6 +24,7 @@ function App() {
       <main className="flex-1 py-1 md:py-6 flex flex-col justify-center">
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </main>

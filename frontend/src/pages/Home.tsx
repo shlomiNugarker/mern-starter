@@ -4,7 +4,7 @@ export const Home = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="min-h-[calc(100vh-90px)] bg-background text-foreground flex flex-col items-center justify-center">
+    <section className="bg-background text-foreground flex flex-col items-center justify-center">
       {t("home_welcome")}
     </section>
   );

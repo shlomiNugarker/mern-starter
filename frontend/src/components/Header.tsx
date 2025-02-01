@@ -21,11 +21,15 @@ const Header = () => {
 
   const menuItems = [
     {
-      label: t("home_page"),
+      label: t("login_page"),
       path: "/login",
     },
     {
-      label: t("login_page"),
+      label: t("register_page"),
+      path: "/register",
+    },
+    {
+      label: t("home_page"),
       path: "/",
     },
   ];
@@ -41,7 +45,6 @@ const Header = () => {
           <li>
             <Link
               to={item.path}
-              target="_blank"
               rel="noopener noreferrer"
               className="text-xl transition-colors duration-200 px-4 py-2 hover:underline truncate"
             >
