@@ -4,5 +4,6 @@
   "login_page": "Login page",
   "password": "Password",
   "email": "Email",
-  "register_page": "Register page"
+  "register_page": "Register page",
+  "welcome": "Welcome"
 }

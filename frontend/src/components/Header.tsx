@@ -69,6 +69,16 @@ const Header = () => {
     >
       <header className="container mx-auto z-10 top-0 flex justify-between flex-col items-center p-6 text-primary-foreground">
         <div className="flex justify-between w-full items-center">
+          {user && (
+            <div className="flex items-center">
+              <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+              <span className="text-white font-semibold  mx-2">
+                {t("welcome")}, {user.name}!
+              </span>
+            </div>
+          )}
           <button
             aria-label="Menu"
             onClick={toggleMenu}
@@ -84,12 +94,6 @@ const Header = () => {
           <NavigationMenu dir={i18n.dir()} className="hidden xl:flex">
             <NavigationMenuList>{renderMenuItems()}</NavigationMenuList>
           </NavigationMenu>
-
-          {user && (
-            <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold">
-              {user.name.charAt(0).toUpperCase()}
-            </div>
-          )}
         </div>
 
         {isMenuOpen && (
