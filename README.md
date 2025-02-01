@@ -51,7 +51,7 @@ npm install
   MONGO_URI=your-mongodb-uri
   SESSION_SECRET=your-session-secret
   NODE_ENV=development
-  FRONTEND_URL=
+  FRONTEND_URL=http://localhost:5173/
   ```
 - Start the backend server:
   ```sh
