@@ -1,8 +1,8 @@
-# 🚀 Raz Project - Full Stack Web Application
+# 🚀 mern-starter Project - Full Stack Web Application
 
 ## 📌 Overview
 
-Raz Project is a **full-stack web application** built using **React (Vite) for the frontend** and **Node.js (Express, TypeScript) with MongoDB for the backend**. The project includes authentication, user management, and a clean UI based on Tailwind CSS and ShadCN UI components.
+mern-starter Project is a **full-stack web application** built using **React (Vite) for the frontend** and **Node.js (Express, TypeScript) with MongoDB for the backend**. The project includes authentication, user management, and a clean UI based on Tailwind CSS and ShadCN UI components.
 
 ---
 
@@ -34,8 +34,8 @@ Raz Project is a **full-stack web application** built using **React (Vite) for t
 ### **1️⃣ Clone the Repository**
 
 ```sh
-git clone https://github.com/[username]/[project_name].git
-cd [project_name]
+git https://github.com/shlomiNugarker/mern-starter.git
+cd mern-starter
 ```
 
 ### **2️⃣ Backend Setup**
