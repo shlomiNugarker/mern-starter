@@ -14,6 +14,8 @@ const Login: React.FC = () => {
     setError("");
 
     try {
+      console.log({ email, password });
+
       await login(email, password);
       alert(t("login_success"));
     } catch (err) {
@@ -33,6 +35,7 @@ const Login: React.FC = () => {
               {t("email")}
             </label>
             <input
+              dir="ltr"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}

@@ -6,5 +6,10 @@
   "email": "דואר אלקטרוני",
   "register_page": "דף הרשמה",
   "welcome": "ברוך הבא",
-  "dashboard_page": "דשבורד"
+  "dashboard_page": "דשבורד",
+  "logout": "התנתקות",
+  "login": "התחברות",
+  "confirm_password": "אימות סיסמה",
+  "name": "שם",
+  "register": "הרשמה"
 }

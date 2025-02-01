@@ -6,5 +6,10 @@
   "email": "Email",
   "register_page": "Register page",
   "welcome": "Welcome",
-  "dashboard_page": "Dashboard page"
+  "dashboard_page": "Dashboard page",
+  "logout": "Logout",
+  "login": "Login",
+  "confirm_password": "Confirm Password",
+  "name": "Name",
+  "register": "Register"
 }

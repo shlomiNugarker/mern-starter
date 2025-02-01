@@ -13,7 +13,7 @@ import { useAuth } from "@/context/AuthContext";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
@@ -40,7 +40,6 @@ const Header = () => {
     },
   ];
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderMenuItems = (isMobile: boolean = false) => (
     <>
       <li>
@@ -61,6 +60,16 @@ const Header = () => {
           </li>
         </NavigationMenuItem>
       ))}
+      {user && (
+        <NavigationMenuItem>
+          <button
+            onClick={logout}
+            className="text-xl transition-colors duration-200 px-4 py-2 hover:underline truncate"
+          >
+            {t("logout")}
+          </button>
+        </NavigationMenuItem>
+      )}
     </>
   );
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { httpService } from "@/services/http.service";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -40,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       try {
-        const data = await httpService.get("/api/auth/me");
+        const data = await httpService.get("/api/auth/me", true);
         setUser(data.user);
       } catch (error) {
         console.error("Authentication error:", error);
@@ -60,11 +59,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         email,
         password,
       });
-
       if (!data.token) {
         throw new Error("Login failed: No token received");
       }
-
       setToken(data.token);
       setUser(data.user);
       localStorage.setItem("token", data.token);
