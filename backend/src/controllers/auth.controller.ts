@@ -141,7 +141,6 @@ export const getAuthenticatedUser = async (req: Request, res: Response) => {
     let user = null;
 
     user = await User.findById((decoded as any).userId).select("-password");
-    console.log({ user });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
