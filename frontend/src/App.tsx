@@ -24,10 +24,31 @@ function App() {
 
       <main className="flex-1 py-1 md:py-6 flex flex-col justify-center">
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Login />
+              </>
+            }
+          />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/dashboard"
+            element={
+              <>
+                <Dashboard />
+              </>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <>
+                <Home />
+              </>
+            }
+          />
         </Routes>
       </main>
       <Toaster />

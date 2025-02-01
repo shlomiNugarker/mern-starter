@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@example.com");
+  const [password, setPassword] = useState("123456");
   const [error, setError] = useState("");
   const { t } = useTranslation();
 
@@ -26,8 +26,6 @@ const Login: React.FC = () => {
 
       localStorage.setItem("token", data.token);
       alert("Login successful!");
-
-      window.location.href = "/dashboard";
     } catch (err) {
       setError((err as Error)?.message);
     }
