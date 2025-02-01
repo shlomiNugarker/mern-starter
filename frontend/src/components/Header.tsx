@@ -8,10 +8,12 @@ import {
 import { Menu, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { LanguageToggle } from "./LanguageToggle";
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
+  const { user } = useAuth();
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
@@ -67,16 +69,6 @@ const Header = () => {
     >
       <header className="container mx-auto z-10 top-0 flex justify-between flex-col items-center p-6 text-primary-foreground">
         <div className="flex justify-between w-full items-center">
-          {/* <Link to="/" className="transition-colors duration-200 mr-5">
-            <img
-              src={`/images/logo.png`}
-              alt="logo"
-              className="h-10 w-[80%] "
-              width={200}
-              height={50}
-            />
-          </Link> */}
-
           <button
             aria-label="Menu"
             onClick={toggleMenu}
@@ -90,10 +82,14 @@ const Header = () => {
           </button>
 
           <NavigationMenu dir={i18n.dir()} className="hidden xl:flex">
-            <NavigationMenuList className="">
-              {renderMenuItems()}
-            </NavigationMenuList>
+            <NavigationMenuList>{renderMenuItems()}</NavigationMenuList>
           </NavigationMenu>
+
+          {user && (
+            <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold">
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+          )}
         </div>
 
         {isMenuOpen && (
