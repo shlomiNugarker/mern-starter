@@ -31,6 +31,10 @@ const Header = () => {
       path: "/register",
     },
     {
+      label: t("dashboard_page"),
+      path: "/dashboard",
+    },
+    {
       label: t("home_page"),
       path: "/",
     },

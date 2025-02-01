@@ -14,7 +14,7 @@ exports.config = {
         "http://127.0.0.1:3000",
         "http://localhost:3000",
         "http://localhost:5173",
-        "https://coaching.up.railway.app/",
+        "https://coaching.up.railway.app",
     ],
     mongoUri: process.env.MONGO_URI,
 };
