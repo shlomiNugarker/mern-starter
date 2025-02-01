@@ -1,11 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { httpService } from "@/services/http.service";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role?: string;
+}
+
 interface AuthContextType {
-  user: any;
+  user: User | null;
   token: string | null;
   loading: boolean;
-  login: (token: string, userData: any) => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -14,10 +22,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<any>(null);
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token")
-  );
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem("token");
+    } catch {
+      return null;
+    }
+  });
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -50,17 +62,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     verifyUser();
   }, [token]);
 
-  const login = (newToken: string, userData: any) => {
-    setToken(newToken);
-    setUser(userData);
-    localStorage.setItem("token", newToken);
+  const login = async (email: string, password: string): Promise<void> => {
+    try {
+      const data = await httpService.post("/api/auth/login", {
+        email,
+        password,
+      });
+
+      if (!data.token) {
+        throw new Error("Login failed: No token received");
+      }
+
+      setToken(data.token);
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+    } catch (error) {
+      console.error("Login error:", error);
+      throw error;
+    }
   };
 
   const logout = () => {
+    try {
+      localStorage.removeItem("token");
+    } catch (error) {
+      console.error("Error removing token:", error);
+    }
     setToken(null);
     setUser(null);
-    localStorage.removeItem("token");
-    window.location.href = "/login";
   };
 
   return (
