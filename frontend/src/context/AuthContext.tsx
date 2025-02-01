@@ -40,15 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       try {
-        const response = await fetch("http://localhost:3030/api/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!response.ok) {
-          throw new Error("Invalid token");
-        }
-
-        const data = await response.json();
+        const data = await httpService.get("/api/auth/me");
         setUser(data.user);
       } catch (error) {
         console.error("Authentication error:", error);
