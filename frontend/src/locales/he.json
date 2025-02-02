@@ -15,5 +15,6 @@
   "login_success": "התחברת בהצלחה",
   "already_have_account": "כבר יש לך חשבון? התחבר כאן",
   "dont_have_account": "אין לך חשבון? הירשם כאן",
-  "register_success": "הרשמתך בוצעה בהצלחה"
+  "register_success": "הרשמתך בוצעה בהצלחה",
+  "manage_users": "ניהול משתמשים"
 }

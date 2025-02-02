@@ -5,27 +5,6 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 
-export const registerUser = async (req: Request, res: Response) => {
-  try {
-    const { name, email, password } = req.body;
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({ name, email, password: hashedPassword });
-    await newUser.save();
-
-    res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {
-    console.error("❌ Error in registerUser:", JSON.stringify(error, null, 2));
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
 export const loginUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -39,16 +18,97 @@ export const loginUser = async (req: Request, res: Response) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
-
     // @ts-ignore
     const token = generateToken(user._id.toString());
-
     const { password: _, ...safeUser } = user.toObject();
+
     res
       .status(200)
       .json({ message: "Login successful", token, user: safeUser });
   } catch (error) {
-    console.error("❌ Error in loginUser:", JSON.stringify(error, null, 2));
+    console.error("❌ Error in loginUser:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const registerTrainee = async (req: Request, res: Response) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newTrainee = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: "trainee",
+    });
+
+    await newTrainee.save();
+    res
+      .status(201)
+      .json({ message: "Trainee registered successfully", user: newTrainee });
+  } catch (error) {
+    console.error("❌ Error in registerTrainee:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const registerCoach = async (req: Request, res: Response) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newCoach = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: "coach",
+    });
+
+    await newCoach.save();
+    res
+      .status(201)
+      .json({ message: "Coach registered successfully", user: newCoach });
+  } catch (error) {
+    console.error("❌ Error in registerCoach:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Super Admin registration is not exposed to the frontend
+export const registerSuperAdmin = async (req: Request, res: Response) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newAdmin = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: "super_admin",
+    });
+
+    await newAdmin.save();
+    res
+      .status(201)
+      .json({ message: "Super Admin registered successfully", user: newAdmin });
+  } catch (error) {
+    console.error("❌ Error in registerSuperAdmin:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

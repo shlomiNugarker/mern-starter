@@ -1,14 +1,19 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
-const ProtectedRoute: React.FC = () => {
-  const { token, loading } = useAuth();
+interface ProtectedRouteProps {
+  allowedRoles: string[];
+}
 
-  if (loading) {
-    return <div className="text-center">Loading...</div>;
-  }
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
+  const { user, loading } = useAuth();
 
-  return token ? <Outlet /> : <Navigate to="/login" replace />;
+  if (loading) return <div>Loading...</div>;
+
+  if (!user) return <Navigate to="/login" />;
+  if (!allowedRoles.includes(user.role)) return <Navigate to="/unauthorized" />;
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

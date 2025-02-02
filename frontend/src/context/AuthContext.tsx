@@ -5,7 +5,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role?: string;
+  role: "super_admin" | "coach" | "trainee"; // ✅ הוספת סוגי המשתמשים
 }
 
 interface AuthContextType {
@@ -14,6 +14,12 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  register: (
+    name: string,
+    email: string,
+    password: string,
+    role: string
+  ) => Promise<void>; // ✅ פונקציה לרישום
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,13 +28,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(() => {
-    try {
-      return localStorage.getItem("token");
-    } catch {
-      return null;
-    }
-  });
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem("token")
+  );
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -37,7 +39,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setLoading(false);
         return;
       }
-
       try {
         const data = await httpService.get("/api/auth/me", true);
         setUser(data.user);
@@ -81,8 +82,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(null);
   };
 
+  const register = async (
+    name: string,
+    email: string,
+    password: string,
+    role: string
+  ) => {
+    const endpoint = `/api/auth/register/${role}`;
+    await httpService.post(endpoint, { name, email, password });
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, loading, login, logout, register }}
+    >
       {children}
     </AuthContext.Provider>
   );

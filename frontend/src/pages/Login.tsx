@@ -1,7 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -18,11 +17,9 @@ const Login: React.FC = () => {
     setError("");
 
     try {
-      console.log({ email, password });
-
       await login(email, password);
       toast.success(t("login_success"));
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setError((err as Error)?.message || t("login_failed"));
     }
@@ -60,13 +57,6 @@ const Login: React.FC = () => {
               className="mt-1 p-2 w-full border rounded-md"
               required
             />
-          </div>
-
-          <div className="mb-4">
-            {t("dont_have_account")}{" "}
-            <Link className="text-blue-500 hover:underline" to={"/register"}>
-              {t("register")}
-            </Link>
           </div>
 
           <button

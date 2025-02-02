@@ -21,46 +21,52 @@ const Header = () => {
     i18n.changeLanguage(lng);
   };
 
+  // ✅ יצירת תפריט דינמי לפי סוג המשתמש
   const menuItems = [
     {
       label: t("home_page"),
       path: "/",
+      roles: ["trainee", "coach", "super_admin"],
     },
     {
       label: t("dashboard_page"),
       path: "/dashboard",
+      roles: ["coach", "super_admin"],
     },
+    { label: t("manage_users"), path: "/admin/users", roles: ["super_admin"] }, // ✅ רק סופר אדמין
+  ];
+
+  const authItems = [
     {
       label: t("login_page"),
       path: "/login",
     },
-    {
-      label: t("register_page"),
-      path: "/register",
-    },
   ];
 
+  // ✅ פונקציה לרינדור פריטי התפריט
   const renderMenuItems = (isMobile: boolean = false) => (
     <>
       <li>
         <LanguageToggle changeLanguage={changeLanguage} />
       </li>
-      {menuItems.map((item, index) => (
-        <NavigationMenuItem key={index} asChild>
-          <li>
-            <Link
-              to={item.path}
-              rel="noopener noreferrer"
-              className={`text-lg transition-all duration-300 px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white truncate ${
-                isMobile ? "text-center w-full block" : ""
-              }`}
-            >
-              {item.label}
-            </Link>
-          </li>
-        </NavigationMenuItem>
-      ))}
-      {user && (
+      {menuItems
+        .filter((item) => user && item.roles.includes(user.role)) // ✅ מסנן לפי role
+        .map((item, index) => (
+          <NavigationMenuItem key={index} asChild>
+            <li>
+              <Link
+                to={item.path}
+                className={`text-lg transition-all duration-300 px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white truncate ${
+                  isMobile ? "text-center w-full block" : ""
+                }`}
+              >
+                {item.label}
+              </Link>
+            </li>
+          </NavigationMenuItem>
+        ))}
+
+      {user ? (
         <NavigationMenuItem>
           <button
             onClick={logout}
@@ -69,6 +75,21 @@ const Header = () => {
             {t("logout")}
           </button>
         </NavigationMenuItem>
+      ) : (
+        authItems.map((item, index) => (
+          <NavigationMenuItem key={index} asChild>
+            <li>
+              <Link
+                to={item.path}
+                className={`text-lg transition-all duration-300 px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white truncate ${
+                  isMobile ? "text-center w-full block" : ""
+                }`}
+              >
+                {item.label}
+              </Link>
+            </li>
+          </NavigationMenuItem>
+        ))
       )}
     </>
   );
@@ -76,6 +97,7 @@ const Header = () => {
   return (
     <div className="shadow-lg bg-gradient-to-r from-blue-500 to-blue-700 sticky w-full z-10 top-0 backdrop-blur-lg">
       <header className="container mx-auto z-10 top-0 flex justify-between items-center p-6 text-white">
+        {/* ✅ הצגת שם המשתמש רק אם מחובר */}
         {user && (
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold text-lg">
@@ -106,6 +128,7 @@ const Header = () => {
         </NavigationMenu>
       </header>
 
+      {/* ✅ תפריט במובייל */}
       {isMenuOpen && (
         <div className="top-full left-0 w-full text-white bg-blue-700 md:hidden">
           <ul className="flex flex-col p-4 items-center justify-center">

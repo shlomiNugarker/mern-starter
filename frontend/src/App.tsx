@@ -1,16 +1,16 @@
 import { Routes, Route } from "react-router-dom";
-import { Home } from "./pages/Home";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { Toaster } from "@/components/ui/sonner";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
+import Unauthorized from "./pages/Unauthorized";
 import Layout from "./components/Layout";
-import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { Home } from "./pages/Home.tsx";
+import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+import AdminUsers from "./pages/AdminUsers.tsx";
 
-function App() {
+const AppRoutes = () => {
   const { i18n } = useTranslation();
 
   useEffect(() => {
@@ -19,27 +19,25 @@ function App() {
     document.documentElement.dir = dir;
     document.documentElement.lang = i18n.language;
   }, [i18n.language]);
-
   return (
-    <div className="flex flex-col min-h-screen">
-      <Routes>
-        <Route element={<RedirectIfAuthenticated />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+
+        <Route element={<ProtectedRoute allowedRoles={["coach"]} />}>
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-
-          <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
+        <Route element={<ProtectedRoute allowedRoles={["super_admin"]} />}>
+          <Route path="/admin/users" element={<AdminUsers />} />
         </Route>
-      </Routes>
-
-      <Toaster />
-    </div>
+      </Route>
+    </Routes>
   );
-}
+};
 
-export default App;
+export default AppRoutes;

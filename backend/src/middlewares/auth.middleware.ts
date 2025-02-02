@@ -1,8 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../utils/jwt";
+import { User } from "../models/User";
 
-export const authMiddleware = (
-  req: Request,
+interface AuthRequest extends Request {
+  user?: any;
+}
+
+export const authMiddleware = async (
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -22,6 +27,12 @@ export const authMiddleware = (
   }
 
   // @ts-ignore
-  req.userId = decoded.userId;
+  const user = await User.findById(decoded.userId).select("-password");
+
+  if (!user) {
+    return res.status(401).json({ message: "User not found" });
+  }
+
+  req.user = user;
   next();
 };

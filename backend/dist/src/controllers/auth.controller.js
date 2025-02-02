@@ -23,30 +23,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAuthenticatedUser = exports.resetPassword = exports.forgotPassword = exports.logoutUser = exports.loginUser = exports.registerUser = void 0;
+exports.getAuthenticatedUser = exports.resetPassword = exports.forgotPassword = exports.logoutUser = exports.registerSuperAdmin = exports.registerCoach = exports.registerTrainee = exports.loginUser = void 0;
 const User_1 = require("../models/User");
 const jwt_1 = require("../utils/jwt");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const crypto_1 = __importDefault(require("crypto"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { name, email, password } = req.body;
-        const existingUser = yield User_1.User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: "User already exists" });
-        }
-        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-        const newUser = new User_1.User({ name, email, password: hashedPassword });
-        yield newUser.save();
-        res.status(201).json({ message: "User registered successfully" });
-    }
-    catch (error) {
-        console.error("❌ Error in registerUser:", JSON.stringify(error, null, 2));
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
-exports.registerUser = registerUser;
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
@@ -66,11 +48,87 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .json({ message: "Login successful", token, user: safeUser });
     }
     catch (error) {
-        console.error("❌ Error in loginUser:", JSON.stringify(error, null, 2));
+        console.error("❌ Error in loginUser:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
 exports.loginUser = loginUser;
+const registerTrainee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, email, password } = req.body;
+        const existingUser = yield User_1.User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const newTrainee = new User_1.User({
+            name,
+            email,
+            password: hashedPassword,
+            role: "trainee",
+        });
+        yield newTrainee.save();
+        res
+            .status(201)
+            .json({ message: "Trainee registered successfully", user: newTrainee });
+    }
+    catch (error) {
+        console.error("❌ Error in registerTrainee:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+exports.registerTrainee = registerTrainee;
+const registerCoach = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, email, password } = req.body;
+        const existingUser = yield User_1.User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const newCoach = new User_1.User({
+            name,
+            email,
+            password: hashedPassword,
+            role: "coach",
+        });
+        yield newCoach.save();
+        res
+            .status(201)
+            .json({ message: "Coach registered successfully", user: newCoach });
+    }
+    catch (error) {
+        console.error("❌ Error in registerCoach:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+exports.registerCoach = registerCoach;
+// Super Admin registration is not exposed to the frontend
+const registerSuperAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, email, password } = req.body;
+        const existingUser = yield User_1.User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const newAdmin = new User_1.User({
+            name,
+            email,
+            password: hashedPassword,
+            role: "super_admin",
+        });
+        yield newAdmin.save();
+        res
+            .status(201)
+            .json({ message: "Super Admin registered successfully", user: newAdmin });
+    }
+    catch (error) {
+        console.error("❌ Error in registerSuperAdmin:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+exports.registerSuperAdmin = registerSuperAdmin;
 const logoutUser = (req, res) => {
     res.cookie("token", "", { expires: new Date(0) });
     res.status(200).json({ message: "Logout successful" });

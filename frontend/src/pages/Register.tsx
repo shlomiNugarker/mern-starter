@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router";
 import { toast } from "sonner";
 
 const Register: React.FC = () => {
@@ -8,8 +8,10 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("trainee"); // ✅ ברירת מחדל: מתאמן
   const [error, setError] = useState("");
   const { t } = useTranslation();
+  const { register } = useAuth();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,18 +23,7 @@ const Register: React.FC = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3030/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
-
+      await register(name, email, password, role);
       toast.success(t("register_success"));
       alert("Registration successful!");
       window.location.href = "/login";
@@ -42,79 +33,47 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center">
-      <div className="bg-white p-6 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-4">{t("register_page")}</h2>
-        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-        <form onSubmit={handleRegister}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              {t("name")}
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-              required
-            />
-          </div>
+    <div>
+      <h2>{t("register_page")}</h2>
+      {error && <p className="text-red-500">{error}</p>}
+      <form onSubmit={handleRegister}>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Name"
+          required
+        />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="Confirm Password"
+          required
+        />
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              {t("email")}
-            </label>
-            <input
-              dir="ltr"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-              required
-            />
-          </div>
+        {/* ✅ בוחר את סוג המשתמש */}
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="trainee">Trainee</option>
+          <option value="coach">Coach</option>
+        </select>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              {t("password")}
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              {t("confirm_password")}
-            </label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            {t("already_have_account")}{" "}
-            <Link className="text-blue-500 hover:underline" to={"/login"}>
-              {t("login")}
-            </Link>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
-          >
-            {t("register")}
-          </button>
-        </form>
-      </div>
+        <button type="submit">{t("register")}</button>
+      </form>
     </div>
   );
 };
