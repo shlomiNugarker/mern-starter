@@ -21,7 +21,6 @@ const Header = () => {
     i18n.changeLanguage(lng);
   };
 
-  // ✅ יצירת תפריט דינמי לפי סוג המשתמש
   const menuItems = [
     {
       label: t("home_page"),
@@ -31,9 +30,14 @@ const Header = () => {
     {
       label: t("dashboard_page"),
       path: "/dashboard",
-      roles: ["coach", "super_admin"],
+      roles: ["coach"],
     },
-    { label: t("manage_users"), path: "/admin/users", roles: ["super_admin"] }, // ✅ רק סופר אדמין
+    {
+      label: t("my_trainees"),
+      path: "/my-trainees",
+      roles: ["coach"],
+    },
+    { label: t("manage_users"), path: "/admin/users", roles: ["super_admin"] },
   ];
 
   const authItems = [
@@ -43,14 +47,13 @@ const Header = () => {
     },
   ];
 
-  // ✅ פונקציה לרינדור פריטי התפריט
   const renderMenuItems = (isMobile: boolean = false) => (
     <>
       <li>
         <LanguageToggle changeLanguage={changeLanguage} />
       </li>
       {menuItems
-        .filter((item) => user && item.roles.includes(user.role)) // ✅ מסנן לפי role
+        .filter((item) => user && item.roles.includes(user.role))
         .map((item, index) => (
           <NavigationMenuItem key={index} asChild>
             <li>
@@ -97,7 +100,6 @@ const Header = () => {
   return (
     <div className="shadow-lg bg-gradient-to-r from-blue-500 to-blue-700 sticky w-full z-10 top-0 backdrop-blur-lg">
       <header className="container mx-auto z-10 top-0 flex justify-between items-center p-6 text-white">
-        {/* ✅ הצגת שם המשתמש רק אם מחובר */}
         {user && (
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold text-lg">
@@ -128,7 +130,6 @@ const Header = () => {
         </NavigationMenu>
       </header>
 
-      {/* ✅ תפריט במובייל */}
       {isMenuOpen && (
         <div className="top-full left-0 w-full text-white bg-blue-700 md:hidden">
           <ul className="flex flex-col p-4 items-center justify-center">

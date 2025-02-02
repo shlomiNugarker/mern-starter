@@ -47,6 +47,14 @@ const userSchema = new mongoose_1.Schema({
         enum: ["super_admin", "coach", "trainee"],
         default: "trainee",
     },
+    coachId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "User",
+        required: function () {
+            return this.role === "trainee";
+        },
+    },
+    isActive: { type: Boolean, default: true },
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
 }, { timestamps: true });
