@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 const Register: React.FC = () => {
   const [name, setName] = useState("");
@@ -32,6 +33,7 @@ const Register: React.FC = () => {
         throw new Error(data.message || "Registration failed");
       }
 
+      toast.success(t("register_success"));
       alert("Registration successful!");
       window.location.href = "/login";
     } catch (err) {

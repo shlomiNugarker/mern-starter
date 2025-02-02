@@ -2,6 +2,8 @@ import { useAuth } from "@/context/AuthContext";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("test@example.com");
@@ -9,6 +11,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState("");
   const { t } = useTranslation();
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +21,8 @@ const Login: React.FC = () => {
       console.log({ email, password });
 
       await login(email, password);
-      alert(t("login_success"));
+      toast.success(t("login_success"));
+      navigate("/dashboard");
     } catch (err) {
       setError((err as Error)?.message || t("login_failed"));
     }
