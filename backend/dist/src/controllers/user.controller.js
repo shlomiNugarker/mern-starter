@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUserRole = exports.getAllUsers = exports.deleteUser = exports.updateProfile = exports.getProfile = void 0;
 const User_1 = require("../models/User");
+const user_service_1 = require("../services/user.service");
 const getProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // @ts-ignore
@@ -47,8 +48,7 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         // @ts-ignore
         const { id } = req.params;
-        const deletedUser = yield User_1.User.findByIdAndDelete(id);
-        console.log({ deleteUser: exports.deleteUser });
+        const deletedUser = yield (0, user_service_1.deleteUserById)(id);
         if (!deletedUser) {
             return res.status(404).json({ message: "User not found" });
         }
