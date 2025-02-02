@@ -8,7 +8,6 @@ import { connectDB } from "./src/database/db";
 import { config } from "./src/config";
 import userRoutes from "./src/routes/user.routes";
 import authRoutes from "./src/routes/auth.routes";
-import adminRoutes from "./src/routes/admin.routes";
 dotenv.config();
 
 const app: Express = express();
@@ -35,7 +34,6 @@ app.use(cors(corsOptions));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/admin", adminRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 

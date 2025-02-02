@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../models/User";
-import { deleteUserById } from "../services/user.service";
+import { deleteUserById, findUserByEmail } from "../services/user.service";
 
 export const getProfile = async (req: Request, res: Response) => {
   try {
@@ -95,6 +95,36 @@ export const updateUserRole = async (req: Request, res: Response) => {
       "❌ Error in updateUserRole:",
       JSON.stringify(error, null, 2)
     );
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const addTrainee = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    if (!["coach", "super_admin"].includes(req.user.role)) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const existingUser = await findUserByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const newTrainee = new User({ name, email, password, role: "trainee" });
+    await newTrainee.save();
+
+    res
+      .status(201)
+      .json({ message: "Trainee added successfully", user: newTrainee });
+  } catch (error) {
+    console.error("❌ Error in addTrainee:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

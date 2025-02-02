@@ -1,11 +1,11 @@
-import { httpService } from "@/services/http.service";
+import { authService } from "@/services/auth.service";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface User {
   id: string;
   name: string;
   email: string;
-  role: "super_admin" | "coach" | "trainee"; // ✅ הוספת סוגי המשתמשים
+  role: "super_admin" | "coach" | "trainee";
 }
 
 interface AuthContextType {
@@ -19,7 +19,7 @@ interface AuthContextType {
     email: string,
     password: string,
     role: string
-  ) => Promise<void>; // ✅ פונקציה לרישום
+  ) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return;
       }
       try {
-        const data = await httpService.get("/api/auth/me", true);
+        const data = await authService.getUser();
         setUser(data.user);
       } catch (error) {
         console.error("Authentication error:", error);
@@ -56,13 +56,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async (email: string, password: string): Promise<void> => {
     try {
-      const data = await httpService.post("/api/auth/login", {
-        email,
-        password,
-      });
+      const data = await authService.login(email, password);
       if (!data.token) {
         throw new Error("Login failed: No token received");
       }
+      console.log("Login successful:", data);
+
       setToken(data.token);
       setUser(data.user);
       localStorage.setItem("token", data.token);
@@ -73,11 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const logout = () => {
-    try {
-      localStorage.removeItem("token");
-    } catch (error) {
-      console.error("Error removing token:", error);
-    }
+    authService.logout();
     setToken(null);
     setUser(null);
   };
@@ -88,8 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string,
     role: string
   ) => {
-    const endpoint = `/api/auth/register/${role}`;
-    await httpService.post(endpoint, { name, email, password });
+    await authService.register(name, email, password, role);
   };
 
   return (

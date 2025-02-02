@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { httpService } from "@/services/http.service";
 import { useNavigate } from "react-router-dom";
+import AddTraineeForm from "@/components/AddTraineeForm"; // ✅ ייבוא הטופס
 
 interface User {
   _id: string;
@@ -28,7 +29,6 @@ const AdminUsers = () => {
     try {
       const data = await httpService.get("/api/users/all", true);
       setUsers(data);
-
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Failed to load users");
@@ -66,13 +66,21 @@ const AdminUsers = () => {
     }
   };
 
+  const handleTraineeAdded = (newUser: User) => {
+    setUsers((prevUsers) => [...prevUsers, newUser]); // ✅ מעדכן את הרשימה אחרי הוספה
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
-      <table className="w-full border-collapse border border-gray-300">
+
+      {/* ✅ הוספת הטופס כאן */}
+      <AddTraineeForm onTraineeAdded={handleTraineeAdded} />
+
+      <table className="w-full border-collapse border border-gray-300 mt-4">
         <thead>
           <tr className="bg-gray-200">
             <th className="border p-2">Name</th>

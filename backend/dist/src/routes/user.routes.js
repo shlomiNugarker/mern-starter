@@ -10,4 +10,5 @@ router.patch("/profile", auth_middleware_1.authMiddleware, user_controller_1.upd
 router.delete("/:id", auth_middleware_1.authMiddleware, user_controller_1.deleteUser);
 router.get("/all", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(["super_admin"]), user_controller_1.getAllUsers);
 router.put("/:id/role", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(["super_admin"]), user_controller_1.updateUserRole);
+router.post("/add-trainee", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(["super_admin", "coach"]), user_controller_1.addTrainee);
 exports.default = router;

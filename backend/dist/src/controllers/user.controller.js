@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserRole = exports.getAllUsers = exports.deleteUser = exports.updateProfile = exports.getProfile = void 0;
+exports.addTrainee = exports.updateUserRole = exports.getAllUsers = exports.deleteUser = exports.updateProfile = exports.getProfile = void 0;
 const User_1 = require("../models/User");
 const user_service_1 = require("../services/user.service");
 const getProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -91,3 +91,29 @@ const updateUserRole = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.updateUserRole = updateUserRole;
+const addTrainee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // @ts-ignore
+        if (!["coach", "super_admin"].includes(req.user.role)) {
+            return res.status(403).json({ message: "Unauthorized" });
+        }
+        const { name, email, password } = req.body;
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+        const existingUser = yield (0, user_service_1.findUserByEmail)(email);
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+        const newTrainee = new User_1.User({ name, email, password, role: "trainee" });
+        yield newTrainee.save();
+        res
+            .status(201)
+            .json({ message: "Trainee added successfully", user: newTrainee });
+    }
+    catch (error) {
+        console.error("❌ Error in addTrainee:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+exports.addTrainee = addTrainee;

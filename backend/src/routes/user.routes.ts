@@ -7,6 +7,7 @@ import {
   deleteUser,
   getAllUsers,
   updateUserRole,
+  addTrainee,
 } from "../controllers/user.controller";
 
 const router = Router();
@@ -29,6 +30,13 @@ router.put(
   authMiddleware,
   roleMiddleware(["super_admin"]),
   updateUserRole
+);
+
+router.post(
+  "/add-trainee",
+  authMiddleware,
+  roleMiddleware(["super_admin", "coach"]),
+  addTrainee
 );
 
 export default router;
