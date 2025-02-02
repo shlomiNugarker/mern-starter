@@ -51,7 +51,7 @@ const Header = () => {
             <Link
               to={item.path}
               rel="noopener noreferrer"
-              className={`text-lg transition-all duration-300 px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white ${
+              className={`text-lg transition-all duration-300 px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white truncate ${
                 isMobile ? "text-center w-full block" : ""
               }`}
             >
@@ -81,7 +81,7 @@ const Header = () => {
             <div className="w-12 h-12 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold text-lg">
               {user.name.charAt(0).toUpperCase()}
             </div>
-            <span className="text-white font-semibold text-lg">
+            <span className="text-white font-semibold text-lg truncate">
               {t("welcome")}, {user.name}!
             </span>
           </div>
@@ -90,7 +90,7 @@ const Header = () => {
         <button
           aria-label="Menu"
           onClick={toggleMenu}
-          className="xl:hidden focus:outline-none text-white"
+          className="md:hidden focus:outline-none text-white"
         >
           {isMenuOpen ? (
             <X className="h-8 w-8" />
@@ -99,7 +99,7 @@ const Header = () => {
           )}
         </button>
 
-        <NavigationMenu dir={i18n.dir()} className="hidden xl:flex">
+        <NavigationMenu dir={i18n.dir()} className="hidden md:flex">
           <NavigationMenuList className="flex gap-6">
             {renderMenuItems()}
           </NavigationMenuList>
@@ -107,8 +107,8 @@ const Header = () => {
       </header>
 
       {isMenuOpen && (
-        <div className="top-full left-0 w-full text-white bg-blue-700 xl:hidden">
-          <ul className="flex flex-col p-4 space-y-2 items-center justify-center">
+        <div className="top-full left-0 w-full text-white bg-blue-700 md:hidden">
+          <ul className="flex flex-col p-4 items-center justify-center">
             {renderMenuItems(true)}
           </ul>
         </div>

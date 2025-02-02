@@ -1,10 +1,10 @@
 {
-  "home_page": "דף הבית",
+  "home_page": "בית",
   "home_welcome": "ברוכים הבאים לדף הבית שלנו",
-  "login_page": "דף התחברות",
+  "login_page": "התחברות",
   "password": "סיסמה",
   "email": "דואר אלקטרוני",
-  "register_page": "דף הרשמה",
+  "register_page": "הרשמה",
   "welcome": "ברוך הבא",
   "dashboard_page": "דשבורד",
   "logout": "התנתקות",
