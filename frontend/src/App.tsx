@@ -1,12 +1,12 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
-import Header from "./components/Header";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Toaster } from "@/components/ui/sonner";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Layout from "./components/Layout";
 
 function App() {
   const { i18n } = useTranslation();
@@ -20,37 +20,18 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Routes>
+        {/* דפים בלי Header */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-      <main className="flex-1 py-1 md:py-6 flex flex-col justify-center">
-        <Routes>
-          <Route
-            path="/login"
-            element={
-              <>
-                <Login />
-              </>
-            }
-          />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/dashboard"
-            element={
-              <>
-                <Dashboard />
-              </>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <>
-                <Home />
-              </>
-            }
-          />
-        </Routes>
-      </main>
+        {/* דפים עם Header */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+      </Routes>
+
       <Toaster />
     </div>
   );

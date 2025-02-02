@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 
 const Register: React.FC = () => {
   const [name, setName] = useState("");
@@ -39,7 +40,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-190px)] bg-background text-foreground flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-bold mb-4">{t("register_page")}</h2>
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
@@ -95,6 +96,13 @@ const Register: React.FC = () => {
               className="mt-1 p-2 w-full border rounded-md"
               required
             />
+          </div>
+
+          <div className="mb-4">
+            {t("already_have_account")}{" "}
+            <Link className="text-blue-500 hover:underline" to={"/login"}>
+              {t("login")}
+            </Link>
           </div>
 
           <button

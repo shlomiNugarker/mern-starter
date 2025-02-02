@@ -12,5 +12,6 @@
   "confirm_password": "Confirm Password",
   "name": "Name",
   "register": "Register",
-  "login_success": "Login successful"
+  "login_success": "Login successful",
+  "already_have_account": "Already have an account? Login here"
 }

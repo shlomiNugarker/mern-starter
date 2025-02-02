@@ -12,5 +12,7 @@
   "confirm_password": "אימות סיסמה",
   "name": "שם",
   "register": "הרשמה",
-  "login_success": "התחברת בהצלחה"
+  "login_success": "התחברת בהצלחה",
+  "already_have_account": "כבר יש לך חשבון? התחבר כאן",
+  "dont_have_account": "אין לך חשבון? הירשם כאן"
 }
