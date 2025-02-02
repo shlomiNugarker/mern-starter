@@ -23,20 +23,20 @@ const Header = () => {
 
   const menuItems = [
     {
-      label: t("login_page"),
-      path: "/login",
-    },
-    {
-      label: t("register_page"),
-      path: "/register",
+      label: t("home_page"),
+      path: "/",
     },
     {
       label: t("dashboard_page"),
       path: "/dashboard",
     },
     {
-      label: t("home_page"),
-      path: "/",
+      label: t("login_page"),
+      path: "/login",
+    },
+    {
+      label: t("register_page"),
+      path: "/register",
     },
   ];
 
@@ -51,8 +51,8 @@ const Header = () => {
             <Link
               to={item.path}
               rel="noopener noreferrer"
-              className={`text-xl transition-colors duration-200 px-4 py-2 hover:underline truncate ${
-                isMobile ? "text-center" : ""
+              className={`text-lg transition-all duration-300 px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white ${
+                isMobile ? "text-center w-full block" : ""
               }`}
             >
               {item.label}
@@ -64,7 +64,7 @@ const Header = () => {
         <NavigationMenuItem>
           <button
             onClick={logout}
-            className="text-xl transition-colors duration-200 px-4 py-2 hover:underline truncate"
+            className="text-lg transition-all duration-300 px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white"
           >
             {t("logout")}
           </button>
@@ -74,51 +74,45 @@ const Header = () => {
   );
 
   return (
-    <div
-      className="min-h-0 shadow-md bg-blue-500 sticky w-full z-10 top-0 backdrop-blur-lg"
-      style={{
-        backgroundImage: `/images/header-bg.jpg`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <header className="container mx-auto z-10 top-0 flex justify-between flex-col items-center p-6 text-primary-foreground">
-        <div className="flex justify-between w-full items-center">
-          {user && (
-            <div className="flex items-center">
-              <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold">
-                {user.name.charAt(0).toUpperCase()}
-              </div>
-              <span className="text-white font-semibold  mx-2">
-                {t("welcome")}, {user.name}!
-              </span>
+    <div className="shadow-lg bg-gradient-to-r from-blue-500 to-blue-700 sticky w-full z-10 top-0 backdrop-blur-lg">
+      <header className="container mx-auto z-10 top-0 flex justify-between items-center p-6 text-white">
+        {user && (
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold text-lg">
+              {user.name.charAt(0).toUpperCase()}
             </div>
-          )}
-          <button
-            aria-label="Menu"
-            onClick={toggleMenu}
-            className="xl:hidden focus:outline-none"
-          >
-            {isMenuOpen ? (
-              <X className="h-6 w-6 text-primary-foreground" />
-            ) : (
-              <Menu className="h-6 w-6 text-primary-foreground" />
-            )}
-          </button>
-
-          <NavigationMenu dir={i18n.dir()} className="hidden xl:flex">
-            <NavigationMenuList>{renderMenuItems()}</NavigationMenuList>
-          </NavigationMenu>
-        </div>
-
-        {isMenuOpen && (
-          <div className="top-full left-0 w-full text-primary-foreground xl:hidden">
-            <ul className="flex flex-col p-4 space-y-2 items-center justify-center">
-              {renderMenuItems(true)}
-            </ul>
+            <span className="text-white font-semibold text-lg">
+              {t("welcome")}, {user.name}!
+            </span>
           </div>
         )}
+
+        <button
+          aria-label="Menu"
+          onClick={toggleMenu}
+          className="xl:hidden focus:outline-none text-white"
+        >
+          {isMenuOpen ? (
+            <X className="h-8 w-8" />
+          ) : (
+            <Menu className="h-8 w-8" />
+          )}
+        </button>
+
+        <NavigationMenu dir={i18n.dir()} className="hidden xl:flex">
+          <NavigationMenuList className="flex gap-6">
+            {renderMenuItems()}
+          </NavigationMenuList>
+        </NavigationMenu>
       </header>
+
+      {isMenuOpen && (
+        <div className="top-full left-0 w-full text-white bg-blue-700 xl:hidden">
+          <ul className="flex flex-col p-4 space-y-2 items-center justify-center">
+            {renderMenuItems(true)}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
