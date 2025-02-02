@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Layout from "./components/Layout";
+import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const { i18n } = useTranslation();
@@ -21,14 +23,17 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Routes>
-        {/* דפים בלי Header */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route element={<RedirectIfAuthenticated />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
 
-        {/* דפים עם Header */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
         </Route>
       </Routes>
 
