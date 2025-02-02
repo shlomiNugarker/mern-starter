@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {
-  logoutUser,
   forgotPassword,
   resetPassword,
   getAuthenticatedUser,
@@ -31,8 +30,6 @@ router.post(
 );
 
 router.post("/register/superadmin", registerSuperAdmin);
-
-router.post("/logout", logoutUser);
 
 router.post("/forgot-password", forgotPassword);
 

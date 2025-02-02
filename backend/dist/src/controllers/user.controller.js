@@ -46,8 +46,9 @@ exports.updateProfile = updateProfile;
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // @ts-ignore
-        const userId = req.userId;
-        const deletedUser = yield User_1.User.findByIdAndDelete(userId);
+        const { id } = req.params;
+        const deletedUser = yield User_1.User.findByIdAndDelete(id);
+        console.log({ deleteUser: exports.deleteUser });
         if (!deletedUser) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -74,7 +75,8 @@ const updateUserRole = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const { id } = req.params;
         const { role } = req.body;
-        if (!["admin", "user"].includes(role)) {
+        console.log(req.body);
+        if (!["super_admin", "coach", "trainee"].includes(role)) {
             return res.status(400).json({ message: "Invalid role" });
         }
         const updatedUser = yield User_1.User.findByIdAndUpdate(id, { role }, { new: true }).select("-password");

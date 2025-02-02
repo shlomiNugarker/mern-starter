@@ -42,8 +42,10 @@ export const updateProfile = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     // @ts-ignore
-    const userId = req.userId;
-    const deletedUser = await User.findByIdAndDelete(userId);
+    const { id } = req.params;
+
+    const deletedUser = await User.findByIdAndDelete(id);
+    console.log({ deleteUser });
 
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -71,7 +73,9 @@ export const updateUserRole = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { role } = req.body;
 
-    if (!["admin", "user"].includes(role)) {
+    console.log(req.body);
+
+    if (!["super_admin", "coach", "trainee"].includes(role)) {
       return res.status(400).json({ message: "Invalid role" });
     }
 

@@ -1,34 +1,34 @@
-import { Router } from "express";
+import express from "express";
+
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { roleMiddleware } from "../middlewares/role.middleware";
 import {
-  getProfile,
-  updateProfile,
   deleteUser,
   getAllUsers,
   updateUserRole,
-} from "../controllers/user.controller";
+} from "../controllers/admin.controller";
 
-const router = Router();
-
-router.get("/profile", authMiddleware, getProfile);
-
-router.patch("/profile", authMiddleware, updateProfile);
-
-router.delete("/:id", authMiddleware, deleteUser);
+const router = express.Router();
 
 router.get(
-  "/all",
+  "/users",
   authMiddleware,
   roleMiddleware(["super_admin"]),
   getAllUsers
 );
 
 router.put(
-  "/:id/role",
+  "/users/:id/role",
   authMiddleware,
   roleMiddleware(["super_admin"]),
   updateUserRole
+);
+
+router.delete(
+  "/users/:id",
+  authMiddleware,
+  roleMiddleware(["super_admin"]),
+  deleteUser
 );
 
 export default router;

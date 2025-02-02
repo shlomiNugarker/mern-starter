@@ -4,7 +4,7 @@ import { httpService } from "@/services/http.service";
 import { useNavigate } from "react-router-dom";
 
 interface User {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   role: "super_admin" | "coach" | "trainee";
@@ -26,8 +26,9 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await httpService.get("/api/users", true);
+      const data = await httpService.get("/api/users/all", true);
       setUsers(data);
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Failed to load users");
@@ -47,7 +48,7 @@ const AdminUsers = () => {
         true
       );
       setUsers(
-        users.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
+        users.map((u) => (u._id === userId ? { ...u, role: newRole } : u))
       );
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
@@ -58,7 +59,7 @@ const AdminUsers = () => {
   const handleDeleteUser = async (userId: string) => {
     try {
       await httpService.del(`/api/users/${userId}`, true);
-      setUsers(users.filter((u) => u.id !== userId));
+      setUsers(users.filter((u) => u._id !== userId));
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Failed to delete user");
@@ -82,7 +83,7 @@ const AdminUsers = () => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className="text-center">
+            <tr key={user._id} className="text-center">
               <td className="border p-2">{user.name}</td>
               <td className="border p-2">{user.email}</td>
               <td className="border p-2">
@@ -90,7 +91,7 @@ const AdminUsers = () => {
                   value={user.role}
                   onChange={(e) =>
                     handleRoleChange(
-                      user.id,
+                      user._id,
                       e.target.value as "super_admin" | "coach" | "trainee"
                     )
                   }
@@ -104,7 +105,7 @@ const AdminUsers = () => {
               <td className="border p-2">
                 <button
                   className="bg-red-500 text-white px-3 py-1 rounded"
-                  onClick={() => handleDeleteUser(user.id)}
+                  onClick={() => handleDeleteUser(user._id)}
                 >
                   Delete
                 </button>
