@@ -11,5 +11,6 @@
   "login": "התחברות",
   "confirm_password": "אימות סיסמה",
   "name": "שם",
-  "register": "הרשמה"
+  "register": "הרשמה",
+  "login_success": "התחברת בהצלחה"
 }
