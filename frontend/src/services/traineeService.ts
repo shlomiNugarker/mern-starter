@@ -2,12 +2,17 @@ import { httpService } from "@/services/http.service";
 
 export const traineeService = {
   getMyTrainees,
+  addTrainee,
   updateTrainee,
   deleteTrainee,
 };
 
 async function getMyTrainees() {
   return httpService.get("/api/trainees/my-trainees", true);
+}
+
+async function addTrainee(name: string, email: string, password: string) {
+  return httpService.post("/api/trainees/add", { name, email, password }, true);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

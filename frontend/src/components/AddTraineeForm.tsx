@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { authService } from "@/services/auth.service";
+import { traineeService } from "@/services/traineeService";
 import { useAuth } from "@/context/AuthContext";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AddTraineeForm: React.FC<{ onTraineeAdded?: (user: any) => void }> = ({
+const AddTraineeForm: React.FC<{ onTraineeAdded: (user: any) => void }> = ({
   onTraineeAdded,
 }) => {
   const { user } = useAuth();
@@ -15,8 +15,8 @@ const AddTraineeForm: React.FC<{ onTraineeAdded?: (user: any) => void }> = ({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  if (!user || (user.role !== "coach" && user.role !== "super_admin")) {
-    return <p>אין לך הרשאה להוסיף מתאמנים חדשים</p>;
+  if (!user || user.role !== "coach") {
+    return <p>אין לך הרשאה להוסיף מתאמנים</p>;
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,14 +29,14 @@ const AddTraineeForm: React.FC<{ onTraineeAdded?: (user: any) => void }> = ({
     setMessage("");
 
     try {
-      const newUser = await authService.addTrainee(
+      const newUser = await traineeService.addTrainee(
         formData.name,
         formData.email,
         formData.password
       );
       setMessage("✅ מתאמן נוסף בהצלחה!");
       setFormData({ name: "", email: "", password: "" });
-      if (onTraineeAdded) onTraineeAdded(newUser);
+      onTraineeAdded(newUser);
     } catch (error) {
       setMessage("❌ שגיאה: " + (error as Error).message);
     } finally {
@@ -45,8 +45,8 @@ const AddTraineeForm: React.FC<{ onTraineeAdded?: (user: any) => void }> = ({
   };
 
   return (
-    <div>
-      <h3>הוספת מתאמן חדש</h3>
+    <div className="p-4 border rounded">
+      <h3 className="text-lg font-bold">הוספת מתאמן חדש</h3>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -55,6 +55,7 @@ const AddTraineeForm: React.FC<{ onTraineeAdded?: (user: any) => void }> = ({
           value={formData.name}
           onChange={handleChange}
           required
+          className="border p-2 w-full mt-2"
         />
         <input
           type="email"
@@ -63,6 +64,7 @@ const AddTraineeForm: React.FC<{ onTraineeAdded?: (user: any) => void }> = ({
           value={formData.email}
           onChange={handleChange}
           required
+          className="border p-2 w-full mt-2"
         />
         <input
           type="password"
@@ -71,12 +73,17 @@ const AddTraineeForm: React.FC<{ onTraineeAdded?: (user: any) => void }> = ({
           value={formData.password}
           onChange={handleChange}
           required
+          className="border p-2 w-full mt-2"
         />
-        <button type="submit" disabled={loading}>
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+        >
           {loading ? "מוסיף..." : "הוסף מתאמן"}
         </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="mt-2">{message}</p>}
     </div>
   );
 };

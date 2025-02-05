@@ -1,13 +1,15 @@
 import { Router } from "express";
-
-import { authMiddleware } from "../middlewares/auth.middleware";
 import {
+  addTrainee,
   getMyTrainees,
   updateTrainee,
   deleteTrainee,
 } from "../controllers/trainee.controller";
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
+
+router.post("/add", authMiddleware, addTrainee);
 
 router.get("/my-trainees", authMiddleware, getMyTrainees);
 

@@ -2,16 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { traineeService } from "@/services/traineeService";
 import { useAuth } from "@/context/AuthContext";
+import AddTraineeForm from "@/components/AddTraineeForm";
+
+interface Trainee {
+  _id: string;
+  name: string;
+  email: string;
+  isActive: boolean;
+}
 
 const MyTrainees: React.FC = () => {
   const { user } = useAuth();
-  interface Trainee {
-    _id: string;
-    name: string;
-    email: string;
-    isActive: boolean;
-  }
-  
   const [trainees, setTrainees] = useState<Trainee[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -32,11 +33,15 @@ const MyTrainees: React.FC = () => {
     }
   };
 
+  const handleTraineeAdded = (newTrainee: Trainee) => {
+    setTrainees((prevTrainees) => [...prevTrainees, newTrainee]);
+  };
+
   const handleUpdate = async (traineeId: string, isActive: boolean) => {
     try {
       await traineeService.updateTrainee(traineeId, { isActive });
-      setTrainees(
-        trainees.map((t) => (t._id === traineeId ? { ...t, isActive } : t))
+      setTrainees((prevTrainees) =>
+        prevTrainees.map((t) => (t._id === traineeId ? { ...t, isActive } : t))
       );
     } catch (err) {
       setError("Failed to update trainee");
@@ -46,7 +51,9 @@ const MyTrainees: React.FC = () => {
   const handleDelete = async (traineeId: string) => {
     try {
       await traineeService.deleteTrainee(traineeId);
-      setTrainees(trainees.filter((t) => t._id !== traineeId));
+      setTrainees((prevTrainees) =>
+        prevTrainees.filter((t) => t._id !== traineeId)
+      );
     } catch (err) {
       setError("Failed to delete trainee");
     }
@@ -58,6 +65,7 @@ const MyTrainees: React.FC = () => {
   return (
     <div>
       <h1>My Trainees</h1>
+      <AddTraineeForm onTraineeAdded={handleTraineeAdded} />
       {trainees.map((trainee) => (
         <div key={trainee._id} className="flex justify-between border p-2">
           <span>

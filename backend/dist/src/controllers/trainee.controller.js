@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteTrainee = exports.updateTrainee = exports.getMyTrainees = void 0;
+exports.deleteTrainee = exports.updateTrainee = exports.addTrainee = exports.getMyTrainees = void 0;
 const User_1 = require("../models/User");
 const getMyTrainees = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -27,6 +27,39 @@ const getMyTrainees = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getMyTrainees = getMyTrainees;
+const addTrainee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // @ts-ignore
+        if (req.user.role !== "coach") {
+            return res.status(403).json({ message: "Unauthorized" });
+        }
+        const { name, email, password } = req.body;
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+        const existingUser = yield User_1.User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+        const newTrainee = new User_1.User({
+            name,
+            email,
+            password,
+            role: "trainee",
+            // @ts-ignore
+            coachId: req.user._id,
+        });
+        yield newTrainee.save();
+        res
+            .status(201)
+            .json({ message: "Trainee added successfully", user: newTrainee });
+    }
+    catch (error) {
+        console.error("❌ Error in addTrainee:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+exports.addTrainee = addTrainee;
 const updateTrainee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { traineeId } = req.params;

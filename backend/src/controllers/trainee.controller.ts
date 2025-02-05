@@ -18,6 +18,43 @@ export const getMyTrainees = async (req: Request, res: Response) => {
   }
 };
 
+export const addTrainee = async (req: Request, res: Response) => {
+  try {
+    // @ts-ignore
+    if (req.user.role !== "coach") {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const newTrainee = new User({
+      name,
+      email,
+      password,
+      role: "trainee",
+      // @ts-ignore
+      coachId: req.user._id,
+    });
+
+    await newTrainee.save();
+
+    res
+      .status(201)
+      .json({ message: "Trainee added successfully", user: newTrainee });
+  } catch (error) {
+    console.error("❌ Error in addTrainee:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const updateTrainee = async (req: Request, res: Response) => {
   try {
     const { traineeId } = req.params;
