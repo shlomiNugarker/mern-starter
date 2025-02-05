@@ -9,6 +9,7 @@ import { config } from "./src/config";
 import userRoutes from "./src/routes/user.routes";
 import authRoutes from "./src/routes/auth.routes";
 import traineesRoutes from "./src/routes/trainees.routes";
+import coachRoutes from "./src/routes/coach.routes";
 dotenv.config();
 
 const app: Express = express();
@@ -36,6 +37,7 @@ app.use(cors(corsOptions));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/trainees", traineesRoutes);
+app.use("/api/coaches", coachRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
