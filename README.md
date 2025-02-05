@@ -1,163 +1,116 @@
-# 🚀 mern-starter Project - Full Stack Web Application
+# MERN Starter
 
-## 📌 Overview
+## 🚀 Introduction
 
-mern-starter Project is a **full-stack web application** built using **React (Vite) for the frontend** and **Node.js (Express, TypeScript) with MongoDB for the backend**. The project includes authentication, user management, and a clean UI based on Tailwind CSS and ShadCN UI components.
+This project is a full-stack MERN (MongoDB, Express, React, Node.js) starter template, built with **TypeScript** and **Vite** for fast development.
 
----
+## 📂 Project Structure
 
-## 🏗️ Tech Stack
+### **Backend (Express + TypeScript)**
 
-### **Frontend** (React + Vite)
+Located in the `/backend` directory, the server is built with **Express.js** and connected to **MongoDB** using **Mongoose**.
 
-- **React** (with TypeScript)
-- **Vite** (for fast development)
-- **React Router** (for navigation)
-- **Tailwind CSS** (for styling)
-- **ShadCN UI** (for pre-styled UI components)
-- **i18next** (for multilingual support)
-- **Lucide Icons** (for modern icons)
+- **Main entry point:** `server.ts`
+- **User authentication with JWT** (`auth.middleware.js`)
+- **User management API** (`user.controller.js`)
+- **Database connection** (`db.js`)
+- **Session management with `express-session`**
+- **Environment configuration via `.env`**
 
-### **Backend** (Node.js + Express)
+### **Frontend (React + Vite + TypeScript)**
 
-- **Express.js** (REST API framework)
-- **TypeScript** (strongly typed backend)
-- **MongoDB (Mongoose ORM)** (for database management)
-- **JWT (jsonwebtoken)** (for authentication security)
-- **bcrypt** (for password hashing)
-- **Nodemailer** (for email services)
+Located in the `/frontend` directory, the client-side app is built with **React** and **Vite**, using **Tailwind CSS**.
 
----
+- **Main entry point:** `main.tsx`
+- **App Component:** `App.tsx`
+- **State management:** TBD (if Redux/Context is used)
+- **Routing:** TBD (if React Router is used)
+- **I18n support:** `i18n.ts`
+- **Styling:** `tailwind.config.js`
 
-## ⚙️ Installation & Setup
+## 🔧 Installation & Setup
 
 ### **1️⃣ Clone the Repository**
 
 ```sh
-git https://github.com/shlomiNugarker/mern-starter.git
+git clone https://github.com/your-repo/mern-starter.git
 cd mern-starter
 ```
 
-### **2️⃣ Backend Setup**
+### **2️⃣ Install Dependencies**
+
+#### **Backend**
 
 ```sh
 cd backend
 npm install
 ```
 
-- Create a `.env` file in `backend/` with the following:
-  ```env
-  PORT=3030
-  MONGO_URI=your-mongodb-uri
-  SESSION_SECRET=your-session-secret
-  NODE_ENV=development
-  FRONTEND_URL=http://localhost:5173/
-  ```
-- Start the backend server:
-  ```sh
-  npm run dev
-  ```
-
-### **3️⃣ Frontend Setup**
+#### **Frontend**
 
 ```sh
-cd ../frontend
+cd frontend
 npm install
+```
+
+### **3️⃣ Setup Environment Variables**
+
+Create a `.env` file inside `/backend` and define:
+
+```env
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+SESSION_SECRET=your_session_secret
+```
+
+### **4️⃣ Start the Development Server**
+
+#### **Backend**
+
+```sh
+cd backend
 npm run dev
 ```
 
-> The frontend will start at **http://localhost:5173** by default.
+#### **Frontend**
 
----
-
-## 🛠️ Features
-
-### ✅ **Authentication System**
-
-- User registration & login
-- JWT-based authentication
-- Password hashing with `bcrypt`
-
-### ✅ **User Management**
-
-- Fetch logged-in user details
-- Role-based access control (`admin` & `user`)
-
-### ✅ **Modern UI**
-
-- Responsive design with **Tailwind CSS**
-- Ready-made UI components via **ShadCN UI**
-- Dark mode support (if applicable)
-
-### ✅ **Multilingual Support**
-
-- i18next setup for dynamic language switching
-- Predefined translations for **English & Hebrew**
-
-### ✅ **Email Services**
-
-- Password reset via email (Nodemailer)
-
----
-
-## 🔗 API Endpoints
-
-### **🔐 Authentication Routes** (`/api/auth`)
-
-| Method | Route                    | Description                    |
-| ------ | ------------------------ | ------------------------------ |
-| POST   | `/register`              | Register a new user            |
-| POST   | `/login`                 | User login                     |
-| POST   | `/logout`                | Logout user                    |
-| POST   | `/forgot-password`       | Send password reset email      |
-| POST   | `/reset-password/:token` | Reset password                 |
-| GET    | `/me`                    | Get authenticated user details |
-
-### **👤 User Routes** (`/api/users`)
-
-| Method | Route  | Description      |
-| ------ | ------ | ---------------- |
-| GET    | `/`    | Fetch all users  |
-| GET    | `/:id` | Fetch user by ID |
-
----
-
-## 📂 Project Structure
-
-```
-raz_proj/
-│── backend/        # Express.js API (Node.js + TypeScript)
-│   ├── src/
-│   │   ├── controllers/    # API logic (auth, users)
-│   │   ├── models/         # MongoDB Mongoose models
-│   │   ├── routes/         # Express API routes
-│   │   ├── middlewares/    # Auth & Admin protection
-│   │   ├── database/       # DB connection setup
-│   │   ├── utils/          # Helper functions (JWT, bcrypt)
-│   ├── server.ts           # Main entry point
-│   ├── package.json        # Backend dependencies
-│
-│── frontend/       # React + Vite Frontend
-│   ├── src/
-│   │   ├── pages/            # Login, Register, Home
-│   │   ├── components/       # Reusable UI components
-│   │   ├── assets/           # Images & icons
-│   │   ├── i18n.ts           # Language configuration
-│   ├── package.json         # Frontend dependencies
-│
-│── README.md       # Documentation
-│── .gitignore      # Git ignored files
+```sh
+cd frontend
+npm run dev
 ```
 
-## 💡 Contributing
+## 📡 API Routes
 
-1. **Fork** the repository.
-2. Create a **new branch** for your feature.
-3. **Commit** your changes.
-4. Open a **pull request**.
+| Method | Endpoint             | Description                  |
+| ------ | -------------------- | ---------------------------- |
+| POST   | `/api/auth/login`    | Login user                   |
+| POST   | `/api/auth/register` | Register new user            |
+| GET    | `/api/users/profile` | Get user profile (protected) |
 
----
+## 🚀 Features
+
+- 🔒 **JWT Authentication**
+- 🎨 **TailwindCSS for UI**
+- ⚡ **Vite for fast builds**
+- 🌍 **i18n support**
+- 🔄 **Session-based authentication**
+- 📡 **REST API with Express.js**
+
+## 🤝 Contributing
+
+PRs are welcome! Follow best practices and submit a PR for review.
+
+## 🛠 Technologies Used
+
+- **Frontend:** React, TypeScript, Vite, TailwindCSS
+- **Backend:** Node.js, Express.js, Mongoose, JWT
+- **Database:** MongoDB
+- **Tools:** ESLint, Prettier, Nodemon
 
 ## 📜 License
 
-This project is open-source and available under the **MIT License**.
+MIT License. Feel free to use and modify this project!
+
+---
+
+🚀 Built with ❤️ by Shlomi
