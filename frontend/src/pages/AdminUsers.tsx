@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { httpService } from "@/services/http.service";
 import { useNavigate } from "react-router-dom";
-import AddTraineeForm from "@/components/AddTraineeForm"; // ✅ ייבוא הטופס
 import { t } from "i18next";
+import AddCoachForm from "@/components/AddCoachForm";
 
 interface User {
   _id: string;
@@ -42,6 +42,16 @@ const AdminUsers = () => {
     userId: string,
     newRole: "super_admin" | "coach" | "trainee"
   ) => {
+    if (userId === user?._id) {
+      setError("You cannot change your own role");
+      return;
+    }
+
+    if (newRole === "trainee") {
+      setError("Super admin can only add coaches.");
+      return;
+    }
+
     try {
       await httpService.put(
         `/api/users/${userId}/role`,
@@ -67,7 +77,7 @@ const AdminUsers = () => {
     }
   };
 
-  const handleTraineeAdded = (newUser: User) => {
+  const handleCoachAdded = (newUser: User) => {
     setUsers((prevUsers) => [...prevUsers, newUser]); // ✅ מעדכן את הרשימה אחרי הוספה
   };
 
@@ -78,8 +88,8 @@ const AdminUsers = () => {
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">{t("users_management")}</h1>
 
-      {/* ✅ הוספת הטופס כאן */}
-      <AddTraineeForm onTraineeAdded={handleTraineeAdded} />
+      {/* ✅ הוספת טופס רק למאמנים */}
+      <AddCoachForm onCoachAdded={handleCoachAdded} />
 
       <table className="w-full border-collapse border border-gray-300 mt-4">
         <thead>
@@ -98,17 +108,22 @@ const AdminUsers = () => {
               <td className="border p-2">
                 <select
                   value={user.role}
-                  onChange={(e) =>
-                    handleRoleChange(
-                      user._id,
-                      e.target.value as "super_admin" | "coach" | "trainee"
+                  onChange={(e) => {
+                    const selectedRole = e.target.value as
+                      | "super_admin"
+                      | "coach"
+                      | "trainee";
+                    if (
+                      user.role === "super_admin" ||
+                      selectedRole === "trainee"
                     )
-                  }
+                      return;
+                    handleRoleChange(user._id, selectedRole);
+                  }}
                   className="border rounded p-1"
+                  disabled={user.role === "super_admin"}
                 >
-                  <option value="trainee">{t("trainee")}</option>
                   <option value="coach">{t("coach")}</option>
-                  <option value="super_admin">{t("super_admin")}</option>
                 </select>
               </td>
               <td className="border p-2">

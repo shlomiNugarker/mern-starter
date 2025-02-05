@@ -3,8 +3,8 @@ import { traineeService } from "@/services/traineeService";
 import { useAuth } from "@/context/AuthContext";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AddTraineeForm: React.FC<{ onTraineeAdded: (user: any) => void }> = ({
-  onTraineeAdded,
+const AddCoachForm: React.FC<{ onCoachAdded: (user: any) => void }> = ({
+  onCoachAdded,
 }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ const AddTraineeForm: React.FC<{ onTraineeAdded: (user: any) => void }> = ({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  if (!user || user.role !== "coach") {
+  if (!user || user.role === "trainee" || user.role === "super_admin") {
     return <p>אין לך הרשאה להוסיף מתאמנים</p>;
   }
 
@@ -36,7 +36,7 @@ const AddTraineeForm: React.FC<{ onTraineeAdded: (user: any) => void }> = ({
       );
       setMessage("✅ מתאמן נוסף בהצלחה!");
       setFormData({ name: "", email: "", password: "" });
-      onTraineeAdded(newUser);
+      onCoachAdded(newUser);
     } catch (error) {
       setMessage("❌ שגיאה: " + (error as Error).message);
     } finally {
@@ -88,4 +88,4 @@ const AddTraineeForm: React.FC<{ onTraineeAdded: (user: any) => void }> = ({
   );
 };
 
-export default AddTraineeForm;
+export default AddCoachForm;

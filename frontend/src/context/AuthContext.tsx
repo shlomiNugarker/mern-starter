@@ -2,7 +2,7 @@ import { authService } from "@/services/auth.service";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface User {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   role: "super_admin" | "coach" | "trainee";

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { traineeService } from "@/services/traineeService";
 import { useAuth } from "@/context/AuthContext";
-import AddTraineeForm from "@/components/AddTraineeForm";
+import AddTraineeForm from "@/components/AddCoachForm";
 import { t } from "i18next";
 
 interface Trainee {
