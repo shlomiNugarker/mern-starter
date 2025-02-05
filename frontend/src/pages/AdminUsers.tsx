@@ -4,6 +4,7 @@ import { httpService } from "@/services/http.service";
 import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
 import AddCoachForm from "@/components/AddCoachForm";
+import { coachService } from "@/services/coach.service";
 
 interface User {
   _id: string;
@@ -28,7 +29,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await httpService.get("/api/users/all", true);
+      const data = await coachService.getCoaches();
       setUsers(data.filter((u: User) => u.role !== "trainee")); // ❌ מסנן חניכים מהרשימה
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
