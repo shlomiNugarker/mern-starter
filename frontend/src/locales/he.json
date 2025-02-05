@@ -24,5 +24,8 @@
   "delete": "מחק",
   "role": "תפקיד",
   "actions": "פעולות",
-  "users_management": "ניהול משתמשים"
+  "users_management": "ניהול משתמשים",
+  "add_trainee": "הוסף תלמיד",
+  "Deactivate": "השבת",
+  "activate": "הפעל"
 }

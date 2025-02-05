@@ -9,7 +9,7 @@ import { Home } from "./pages/Home.tsx";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import AdminUsers from "./pages/AdminUsers.tsx";
-import MyTrainees from "./components/MyTrainees.tsx";
+import MyTrainees from "./pages/MyTrainees.tsx";
 
 const AppRoutes = () => {
   const { i18n } = useTranslation();

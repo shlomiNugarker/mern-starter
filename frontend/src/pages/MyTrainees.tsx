@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { traineeService } from "@/services/traineeService";
 import { useAuth } from "@/context/AuthContext";
-import AddTraineeForm from "@/components/AddCoachForm";
 import { t } from "i18next";
+import AddTraineeForm from "../components/AddTraineeForm";
 
-interface Trainee {
+export interface Trainee {
   _id: string;
   name: string;
   email: string;
@@ -75,9 +75,11 @@ const MyTrainees: React.FC = () => {
             {trainee.name} - {trainee.email}
           </span>
           <button onClick={() => handleUpdate(trainee._id, !trainee.isActive)}>
-            {trainee.isActive ? "Deactivate" : "Activate"}
+            {trainee.isActive ? t("Deactivate") : t("Activate")}
           </button>
-          <button onClick={() => handleDelete(trainee._id)}>Delete</button>
+          <button onClick={() => handleDelete(trainee._id)}>
+            {t("delete")}
+          </button>
         </div>
       ))}
     </div>

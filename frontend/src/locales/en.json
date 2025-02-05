@@ -23,5 +23,8 @@
   "delete": "Delete",
   "role": "Role",
   "actions": "Actions",
-  "users_management": "Users Management"
+  "users_management": "Users Management",
+  "add_trainee": "Add Trainee",
+  "Deactivate": "Deactivate",
+  "activate": "Activate"
 }

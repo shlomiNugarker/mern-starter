@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { traineeService } from "@/services/traineeService";
 import { useAuth } from "@/context/AuthContext";
+import { coachService } from "@/services/coach.service";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddCoachForm: React.FC<{ onCoachAdded: (user: any) => void }> = ({
@@ -15,7 +15,7 @@ const AddCoachForm: React.FC<{ onCoachAdded: (user: any) => void }> = ({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  if (!user || user.role === "trainee" || user.role === "super_admin") {
+  if (!user || user?.role !== "super_admin") {
     return <p>אין לך הרשאה להוסיף מתאמנים</p>;
   }
 
@@ -29,7 +29,7 @@ const AddCoachForm: React.FC<{ onCoachAdded: (user: any) => void }> = ({
     setMessage("");
 
     try {
-      const newUser = await traineeService.addTrainee(
+      const newUser = await coachService.addCoach(
         formData.name,
         formData.email,
         formData.password

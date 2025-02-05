@@ -29,41 +29,12 @@ const AdminUsers = () => {
   const fetchUsers = async () => {
     try {
       const data = await httpService.get("/api/users/all", true);
-      setUsers(data);
+      setUsers(data.filter((u: User) => u.role !== "trainee")); // ❌ מסנן חניכים מהרשימה
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Failed to load users");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleRoleChange = async (
-    userId: string,
-    newRole: "super_admin" | "coach" | "trainee"
-  ) => {
-    if (userId === user?._id) {
-      setError("You cannot change your own role");
-      return;
-    }
-
-    if (newRole === "trainee") {
-      setError("Super admin can only add coaches.");
-      return;
-    }
-
-    try {
-      await httpService.put(
-        `/api/users/${userId}/role`,
-        { role: newRole },
-        true
-      );
-      setUsers(
-        users.map((u) => (u._id === userId ? { ...u, role: newRole } : u))
-      );
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      setError("Failed to update role");
     }
   };
 
@@ -105,34 +76,16 @@ const AdminUsers = () => {
             <tr key={user._id} className="text-center">
               <td className="border p-2">{user.name}</td>
               <td className="border p-2">{user.email}</td>
+              <td className="border p-2">{t(user.role)}</td>
               <td className="border p-2">
-                <select
-                  value={user.role}
-                  onChange={(e) => {
-                    const selectedRole = e.target.value as
-                      | "super_admin"
-                      | "coach"
-                      | "trainee";
-                    if (
-                      user.role === "super_admin" ||
-                      selectedRole === "trainee"
-                    )
-                      return;
-                    handleRoleChange(user._id, selectedRole);
-                  }}
-                  className="border rounded p-1"
-                  disabled={user.role === "super_admin"}
-                >
-                  <option value="coach">{t("coach")}</option>
-                </select>
-              </td>
-              <td className="border p-2">
-                <button
-                  className="bg-red-500 text-white px-3 py-1 rounded"
-                  onClick={() => handleDeleteUser(user._id)}
-                >
-                  {t("delete")}
-                </button>
+                {user.role !== "super_admin" && (
+                  <button
+                    className="bg-red-500 text-white px-3 py-1 rounded"
+                    onClick={() => handleDeleteUser(user._id)}
+                  >
+                    {t("delete")}
+                  </button>
+                )}
               </td>
             </tr>
           ))}
