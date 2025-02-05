@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import { httpService } from "@/services/http.service";
 import { useNavigate } from "react-router-dom";
 import AddTraineeForm from "@/components/AddTraineeForm"; // ✅ ייבוא הטופס
+import { t } from "i18next";
 
 interface User {
   _id: string;
@@ -75,7 +76,7 @@ const AdminUsers = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("users_management")}</h1>
 
       {/* ✅ הוספת הטופס כאן */}
       <AddTraineeForm onTraineeAdded={handleTraineeAdded} />
@@ -83,10 +84,10 @@ const AdminUsers = () => {
       <table className="w-full border-collapse border border-gray-300 mt-4">
         <thead>
           <tr className="bg-gray-200">
-            <th className="border p-2">Name</th>
-            <th className="border p-2">Email</th>
-            <th className="border p-2">Role</th>
-            <th className="border p-2">Actions</th>
+            <th className="border p-2">{t("name")}</th>
+            <th className="border p-2">{t("email")}</th>
+            <th className="border p-2">{t("role")}</th>
+            <th className="border p-2">{t("actions")}</th>
           </tr>
         </thead>
         <tbody>
@@ -105,9 +106,9 @@ const AdminUsers = () => {
                   }
                   className="border rounded p-1"
                 >
-                  <option value="trainee">Trainee</option>
-                  <option value="coach">Coach</option>
-                  <option value="super_admin">Super Admin</option>
+                  <option value="trainee">{t("trainee")}</option>
+                  <option value="coach">{t("coach")}</option>
+                  <option value="super_admin">{t("super_admin")}</option>
                 </select>
               </td>
               <td className="border p-2">
@@ -115,7 +116,7 @@ const AdminUsers = () => {
                   className="bg-red-500 text-white px-3 py-1 rounded"
                   onClick={() => handleDeleteUser(user._id)}
                 >
-                  Delete
+                  {t("delete")}
                 </button>
               </td>
             </tr>

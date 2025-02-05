@@ -15,5 +15,13 @@
   "login_success": "Login successful",
   "already_have_account": "Already have an account? Login here",
   "register_success": "Registration successful",
-  "manage_users": "Manage Users"
+  "manage_users": "Manage Users",
+  "my_trainees": "My Trainees",
+  "trainee": "Trainee",
+  "coach": "Coach",
+  "super_admin": "Super Admin",
+  "delete": "Delete",
+  "role": "Role",
+  "actions": "Actions",
+  "users_management": "Users Management"
 }

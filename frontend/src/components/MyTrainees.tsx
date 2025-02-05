@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { traineeService } from "@/services/traineeService";
 import { useAuth } from "@/context/AuthContext";
 import AddTraineeForm from "@/components/AddTraineeForm";
+import { t } from "i18next";
 
 interface Trainee {
   _id: string;
@@ -64,8 +65,10 @@ const MyTrainees: React.FC = () => {
 
   return (
     <div>
-      <h1>My Trainees</h1>
       <AddTraineeForm onTraineeAdded={handleTraineeAdded} />
+      <br />
+      <h1 className="mx-auto text-center">{t("my_trainees")}</h1>
+      <br />
       {trainees.map((trainee) => (
         <div key={trainee._id} className="flex justify-between border p-2">
           <span>
