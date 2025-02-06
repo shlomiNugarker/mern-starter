@@ -10,7 +10,12 @@ import { roleMiddleware } from "../middlewares/role.middleware";
 
 const router = Router();
 
-router.get("/all", authMiddleware, roleMiddleware(["coach"]), getCoaches);
+router.get(
+  "/all",
+  authMiddleware,
+  roleMiddleware(["coach", "super_admin"]),
+  getCoaches
+);
 router.post("/add", authMiddleware, roleMiddleware(["coach"]), addCoach);
 router.put("/:coachId", authMiddleware, roleMiddleware(["coach"]), updateCoach);
 router.delete(
