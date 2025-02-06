@@ -6,7 +6,7 @@
   "email": "דואר אלקטרוני",
   "register_page": "הרשמה",
   "welcome": "ברוך הבא",
-  "dashboard_page": "דשבורד",
+  "coach_dashboard": "לוח בקרה של מאמן",
   "logout": "התנתקות",
   "login": "התחברות",
   "confirm_password": "אימות סיסמה",
@@ -29,5 +29,7 @@
   "Deactivate": "השבת",
   "activate": "הפעל",
   "add_coach": "הוסף מאמן",
-  "coach_added": "המאמן נוסף בהצלחה"
+  "coach_added": "המאמן נוסף בהצלחה",
+  "unauthorized": "אינך מורשה לצפות בדף זה",
+  "trainee_dashboard": "לוח בקרה של תלמיד"
 }

@@ -6,7 +6,7 @@
   "email": "Email",
   "register_page": "Register page",
   "welcome": "Welcome",
-  "dashboard_page": "Dashboard page",
+  "coach_dashboard": "Coach Dashboard",
   "logout": "Logout",
   "login": "Login",
   "confirm_password": "Confirm Password",
@@ -28,5 +28,7 @@
   "Deactivate": "Deactivate",
   "activate": "Activate",
   "add_coach": "Add Coach",
-  "coach_added": "Coach added successfully"
+  "coach_added": "Coach added successfully",
+  "unauthorized": "You are not authorized to view this page",
+  "trainee_dashboard": "Trainee Dashboard"
 }

@@ -1,11 +1,30 @@
-import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-export const Home = () => {
-  const { t } = useTranslation();
+const Home = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
-  return (
-    <section className="bg-background text-foreground flex flex-col items-center justify-center">
-      {t("home_welcome")}
-    </section>
-  );
+  useEffect(() => {
+    if (!user) return;
+
+    switch (user.role) {
+      case "coach":
+        navigate("/my-trainees");
+        break;
+      case "super_admin":
+        navigate("/admin/users");
+        break;
+      case "trainee":
+        navigate("/trainees-dashboard");
+        break;
+      default:
+        break;
+    }
+  }, [user, navigate]);
+
+  return <h1>Welcome to Home Page</h1>;
 };
+
+export default Home;
