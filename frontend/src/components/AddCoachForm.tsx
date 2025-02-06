@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { coachService } from "@/services/coach.service";
+import { t } from "i18next";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AddCoachForm: React.FC<{ onCoachAdded: (user: any) => void }> = ({
@@ -34,7 +35,7 @@ const AddCoachForm: React.FC<{ onCoachAdded: (user: any) => void }> = ({
         formData.email,
         formData.password
       );
-      setMessage("✅ מתאמן נוסף בהצלחה!");
+      setMessage(t("coach_added"));
       setFormData({ name: "", email: "", password: "" });
       onCoachAdded(newUser);
     } catch (error) {
@@ -46,7 +47,7 @@ const AddCoachForm: React.FC<{ onCoachAdded: (user: any) => void }> = ({
 
   return (
     <div className="p-4 border rounded">
-      <h3 className="text-lg font-bold">הוספת מתאמן חדש</h3>
+      <h3 className="text-lg font-bold">{t("add_coach")}</h3>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -80,7 +81,7 @@ const AddCoachForm: React.FC<{ onCoachAdded: (user: any) => void }> = ({
           disabled={loading}
           className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
         >
-          {loading ? "מוסיף..." : "הוסף מתאמן"}
+          {loading ? "מוסיף..." : "הוסף מאמן"}
         </button>
       </form>
       {message && <p className="mt-2">{message}</p>}

@@ -23,8 +23,10 @@
   "delete": "Delete",
   "role": "Role",
   "actions": "Actions",
-  "users_management": "Users Management",
+  "coach_management": "Coach Management",
   "add_trainee": "Add Trainee",
   "Deactivate": "Deactivate",
-  "activate": "Activate"
+  "activate": "Activate",
+  "add_coach": "Add Coach",
+  "coach_added": "Coach added successfully"
 }

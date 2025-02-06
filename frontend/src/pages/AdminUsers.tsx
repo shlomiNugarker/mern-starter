@@ -58,7 +58,7 @@ const AdminUsers = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">{t("users_management")}</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("coach_management")}</h1>
 
       {/* ✅ הוספת טופס רק למאמנים */}
       <AddCoachForm onCoachAdded={handleCoachAdded} />

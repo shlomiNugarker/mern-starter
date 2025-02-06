@@ -24,8 +24,10 @@
   "delete": "מחק",
   "role": "תפקיד",
   "actions": "פעולות",
-  "users_management": "ניהול משתמשים",
+  "coach_management": "ניהול מאמנים",
   "add_trainee": "הוסף תלמיד",
   "Deactivate": "השבת",
-  "activate": "הפעל"
+  "activate": "הפעל",
+  "add_coach": "הוסף מאמן",
+  "coach_added": "המאמן נוסף בהצלחה"
 }
