@@ -6,15 +6,36 @@ import {
   deleteTrainee,
 } from "../controllers/trainee.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
+import { roleMiddleware } from "../middlewares/role.middleware";
 
 const router = Router();
 
-router.post("/add", authMiddleware, addTrainee);
+router.post(
+  "/add",
+  authMiddleware,
+  roleMiddleware(["coach", "trainee"]),
+  addTrainee
+);
 
-router.get("/my-trainees", authMiddleware, getMyTrainees);
+router.get(
+  "/my-trainees",
+  authMiddleware,
+  roleMiddleware(["coach", "trainee"]),
+  getMyTrainees
+);
 
-router.put("/:traineeId", authMiddleware, updateTrainee);
+router.put(
+  "/:traineeId",
+  authMiddleware,
+  roleMiddleware(["coach", "trainee"]),
+  updateTrainee
+);
 
-router.delete("/:traineeId", authMiddleware, deleteTrainee);
+router.delete(
+  "/:traineeId",
+  authMiddleware,
+  roleMiddleware(["coach", "trainee"]),
+  deleteTrainee
+);
 
 export default router;
