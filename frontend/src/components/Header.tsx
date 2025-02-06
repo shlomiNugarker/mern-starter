@@ -25,7 +25,7 @@ const Header = () => {
     {
       label: t("home_page"),
       path: "/",
-      roles: ["trainee", "coach", "super_admin"],
+      roles: [""],
     },
     {
       label: t("coach_dashboard"),

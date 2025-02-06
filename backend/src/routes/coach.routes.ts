@@ -16,8 +16,18 @@ router.get(
   roleMiddleware(["coach", "super_admin"]),
   getCoaches
 );
-router.post("/add", authMiddleware, roleMiddleware(["coach"]), addCoach);
-router.put("/:coachId", authMiddleware, roleMiddleware(["coach"]), updateCoach);
+router.post(
+  "/add",
+  authMiddleware,
+  roleMiddleware(["coach", "super_admin"]),
+  addCoach
+);
+router.put(
+  "/:coachId",
+  authMiddleware,
+  roleMiddleware(["coach", "super_admin"]),
+  updateCoach
+);
 router.delete(
   "/:coachId",
   authMiddleware,
