@@ -8,5 +8,5 @@ const router = (0, express_1.Router)();
 router.get("/all", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(["coach", "super_admin"]), coach_controller_1.getCoaches);
 router.post("/add", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(["coach", "super_admin"]), coach_controller_1.addCoach);
 router.put("/:coachId", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(["coach", "super_admin"]), coach_controller_1.updateCoach);
-router.delete("/:coachId", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(["coach"]), coach_controller_1.deleteCoach);
+router.delete("/:coachId", auth_middleware_1.authMiddleware, (0, role_middleware_1.roleMiddleware)(["coach", "super_admin"]), coach_controller_1.deleteCoach);
 exports.default = router;

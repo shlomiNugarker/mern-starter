@@ -31,7 +31,7 @@ router.put(
 router.delete(
   "/:coachId",
   authMiddleware,
-  roleMiddleware(["coach"]),
+  roleMiddleware(["coach", "super_admin"]),
   deleteCoach
 );
 
