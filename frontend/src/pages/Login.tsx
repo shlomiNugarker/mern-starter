@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("test@example.com");
-  const [password, setPassword] = useState("123456");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { t } = useTranslation();
   const { login } = useAuth();

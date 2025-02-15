@@ -2,7 +2,9 @@
 export const httpService = { get, post, put, del };
 
 const BASE_URL =
-  process.env.NODE_ENV === "production" ? "" : "http://localhost:3030";
+  process.env.NODE_ENV === "production"
+    ? ""
+    : "https://coaching.up.railway.app";
 
 function getAuthHeaders(secure: boolean) {
   if (!secure) return { "Content-Type": "application/json" };
